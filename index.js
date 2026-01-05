@@ -1174,8 +1174,8 @@ async function openCreatorPopup() {
 
     // [Fix 10] Generate Preset Options
     let presetOptionsHtml = `
-        <option value="current" ${uiStateCache.generationPreset === 'current' ? 'selected' : ''}>跟随酒馆预设 (Default)</option>
-        <option value="pure" ${uiStateCache.generationPreset === 'pure' ? 'selected' : ''}>✨ 纯净模式 (Pure Mode)</option>
+        <option value="current" ${uiStateCache.generationPreset === 'current' ? 'selected' : ''}>Theo thiết lập mặc định của Tavern (Default)</option>
+        <option value="pure" ${uiStateCache.generationPreset === 'pure' ? 'selected' : ''}>✨ Chế độ thuần khiết (Pure Mode)</option>
     `;
     if (window.TavernHelper && typeof window.TavernHelper.getPresetNames === 'function') {
         const presets = window.TavernHelper.getPresetNames().sort();
@@ -1516,7 +1516,7 @@ async function openCreatorPopup() {
         const $container = $('#pw-update-container');
         const $badge = $('#pw-new-badge');
 
-        if (hasNewVersion) {
+        iif (hasNewVersion) {
             $badge.show(); 
             const html = `
                 <div id="pw-new-version-box" style="margin-top:10px; padding:15px; background:rgba(0,0,0,0.2); border: 1px solid var(--SmartThemeQuoteColor); border-radius: 6px;">
@@ -1536,8 +1536,8 @@ async function openCreatorPopup() {
     renderTemplateChips();
     loadAvailableWorldBooks().then(() => {
         renderWiBooks();
-        const options = availableWorldBooks.length > 0 ? availableWorldBooks.map(b => `<option value="${b}">${b}</option>`).join('') : `<option disabled>未找到世界书</option>`;
-        $('#pw-wi-select').html(`<option value="">-- 添加参考/目标世界书 --</option>${options}`);
+        const options = availableWorldBooks.length > 0 ? availableWorldBooks.map(b => `<option value="${b}">${b}</option>`).join('') : `<option disabled>Không tìm thấy Sách thế giới</option>`;
+        $('#pw-wi-select').html(`<option value="">-- Thêm Sách thế giới tham khảo/mục tiêu --</option>${options}`);
     });
     
     renderGreetingsList();
@@ -2175,11 +2175,11 @@ function bindEvents() {
                     cardsHtml = `
                     <div class="pw-diff-card old" data-val="${encodeURIComponent(valOld)}">
                         <div class="pw-diff-label">Phiên bản gốc</div>
-                        <textarea class="pw-diff-textarea" readonly>${valOld || "(无)"}</textarea>
+                        <textarea class="pw-diff-textarea" readonly>${valOld || "(Không có)"}</textarea>
                     </div>
                     <div class="pw-diff-card new selected" data-val="${encodeURIComponent(valNew)}">
                         <div class="pw-diff-label">Phiên bản mới</div>
-                        <textarea class="pw-diff-textarea">${valNew || "(删除)"}</textarea>
+                        <textarea class="pw-diff-textarea">${valNew || "(Xóa)"}</textarea>
                     </div>`;
                 }
 
@@ -2195,17 +2195,17 @@ function bindEvents() {
 
             $('#pw-diff-overlay').data('source', 'persona');
             
-            $('.pw-diff-tab[data-view="diff"] div:first-child').text('So sánh thông minh');
-            $('.pw-diff-tab[data-view="diff"] .pw-tab-sub').text('Chọn chỉnh sửa');
-            $('.pw-diff-tab[data-view="raw"] div:first-child').text('Nguyên văn bản mới');
-            $('.pw-diff-tab[data-view="raw"] .pw-tab-sub').text('Xem/Chỉnh sửa');
-            $('.pw-diff-tab[data-view="old-raw"] div:first-child').text('Nguyên văn bản gốc');
-            $('.pw-diff-tab[data-view="old-raw"] .pw-tab-sub').text('Xem/Chỉnh sửa');
+            $('.pw-diff-tab[data-view="diff"] div:first-child').text('智能对比');
+            $('.pw-diff-tab[data-view="diff"] .pw-tab-sub').text('选择编辑');
+            $('.pw-diff-tab[data-view="raw"] div:first-child').text('新版原文');
+            $('.pw-diff-tab[data-view="raw"] .pw-tab-sub').text('查看/编辑');
+            $('.pw-diff-tab[data-view="old-raw"] div:first-child').text('原版原文');
+            $('.pw-diff-tab[data-view="old-raw"] .pw-tab-sub').text('查看/编辑');
 
             if (changeCount === 0 && !responseText) {
-                toastr.warning("Nội dung trả về trống. Vui lòng chuyển sang "Chỉnh sửa trực tiếp" để xem.");
+                toastr.warning("返回内容为空，请切换到“直接编辑”查看");
             } else if (changeCount === 0) {
-                toastr.info("Không phát hiện thấy thay đổi nội dung nào.化");
+                toastr.info("没有检测到内容变化");
             }
 
             $('.pw-diff-tab[data-view="diff"]').click();
@@ -2213,7 +2213,7 @@ function bindEvents() {
             $('#pw-refine-input').val('');
         } catch (e) { 
             console.error(e);
-            toastr.error("Làm mới thất bại: " + e.message); 
+            toastr.error("润色失败: " + e.message); 
         } finally { 
             $btn.removeClass('fa-spinner fa-spin').addClass('fa-magic');
             isProcessing = false;
@@ -2256,7 +2256,7 @@ function bindEvents() {
 
         $('#pw-diff-overlay').fadeOut();
         saveCurrentState();
-        toastr.success("Bản sửa đổi đã được áp dụng");
+        toastr.success("修改已应用");
     });
 
     $(document).on('click.pw', '#pw-diff-cancel', () => $('#pw-diff-overlay').fadeOut());
@@ -2271,12 +2271,12 @@ function bindEvents() {
         console.log("[PW] Gen Clicked");
         const req = $('#pw-request').val();
         if (!req) {
-            toastr.warning("Vui lòng nhập yêu cầu");
+            toastr.warning("请输入要求");
             isProcessing = false;
             return;
         }
         const $btn = $(this);
-        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Đang tạo thiết lập...');
+        $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> 生成中...');
         
         await forcePaint();
         
@@ -2315,7 +2315,7 @@ function bindEvents() {
     $(document).on('click.pw', '#pw-btn-load-current', function() {
         const content = getActivePersonaDescription();
         if (content) {
-            if ($('#pw-result-text').val() && !confirm("Khung kết quả hiện tại đã có nội dung, xác nhận muốn ghi đè không?？")) return;
+            if ($('#pw-result-text').val() && !confirm("当前结果框已有内容，确定要覆盖吗？")) return;
             $('#pw-result-text').val(content);
             $('#pw-result-area').fadeIn();
             $('#pw-request').addClass('minimized');
@@ -2323,20 +2323,20 @@ function bindEvents() {
             saveCurrentState();
             $('#pw-result-text').trigger('input');
         } else {
-            toastr.warning("Chưa phát hiện mô tả thiết lập nhân vật hợp lệ");
+            toastr.warning("未检测到有效的人设描述");
         }
     });
 
     $(document).on('click.pw', '#pw-btn-save-wi', async function () {
         const content = $('#pw-result-text').val();
-        if (!content) return toastr.warning("Nội dung trống, không thể lưu lại");
+        if (!content) return toastr.warning("内容为空，无法保存");
         const name = $('.persona_name').first().text().trim() || $('h5#your_name').text().trim() || "User";
         await syncToWorldInfoViaHelper(name, content);
     });
 
     $(document).on('click.pw', '#pw-btn-apply', async function () {
         const content = $('#pw-result-text').val();
-        if (!content) return toastr.warning("Nội dung trống");
+        if (!content) return toastr.warning("内容为空");
         const name = $('.persona_name').first().text().trim() || $('h5#your_name').text().trim() || "User";
         await forceSavePersona(name, content);
         toastr.success(TEXT.TOAST_SAVE_SUCCESS(name));
@@ -2344,7 +2344,7 @@ function bindEvents() {
     });
 
     $(document).on('click.pw', '#pw-clear', function () {
-        if (confirm("Xác nhận xóa sạch？")) {
+        if (confirm("确定清空？")) {
             $('#pw-request').val('').removeClass('minimized');
             $('#pw-result-area').hide();
             $('#pw-result-text').val('');
@@ -2355,14 +2355,14 @@ function bindEvents() {
     $(document).on('click.pw', '#pw-snapshot', function () {
         const text = $('#pw-result-text').val();
         const req = $('#pw-request').val();
-        if (!text && !req) return toastr.warning("Không có nội dung nào để lưu lại");
+        if (!text && !req) return toastr.warning("没有任何内容可保存");
         saveHistory({ 
-            request: req || "Không có", 
+            request: req || "无", 
             timestamp: new Date().toLocaleString(), 
             title: "", 
             data: { 
                 name: "Persona", 
-                resultText: text || "(Không có)", 
+                resultText: text || "(无)", 
                 type: 'persona'
             } 
         });
@@ -2413,7 +2413,7 @@ function bindEvents() {
                     if (res.ok) { data = await res.json(); break; }
                 } catch { }
             }
-            if (!data) throw new Error("Kết nối thất bại hoặc không thể lấy danh sách mô hình");
+            if (!data) throw new Error("连接失败或无法获取模型列表");
             const models = (data.data || data).map(m => m.id).sort();
             const $select = $('#pw-api-model-select').empty();
             models.forEach(m => $select.append(`<option value="${m}">${m}</option>`));
@@ -2435,9 +2435,9 @@ function bindEvents() {
                 method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
                 body: JSON.stringify({ model: model, messages: [{ role: 'user', content: 'Hi' }], max_tokens: 5 })
             });
-            if (res.ok) toastr.success("Kết nối thành công！");
-            else toastr.error(`thất bại: ${res.status}`);
-        } catch (e) { toastr.error("Gửi yêu cầu thất bại"); }
+            if (res.ok) toastr.success("连接成功！");
+            else toastr.error(`失败: ${res.status}`);
+        } catch (e) { toastr.error("请求发送失败"); }
         finally { $btn.html('<i class="fa-solid fa-plug"></i>'); }
     });
 
@@ -2453,11 +2453,11 @@ function bindEvents() {
             promptsCache.personaGen = $('#pw-prompt-editor').val();
         }
         saveData();
-        toastr.success("Đã lưu Prompt");
+        toastr.success("Prompt已保存");
     });
 
     $(document).on('click.pw', '#pw-reset-prompt', () => {
-        if (!confirm("Xác nhận khôi phục cài đặt mặc định Prompt？")) return;
+        if (!confirm("确定恢复默认 Prompt？")) return;
         const type = $('#pw-prompt-type').val();
         if (type === 'templateGen') {
             $('#pw-prompt-editor').val(defaultTemplateGenPrompt);
@@ -2604,7 +2604,7 @@ const renderHistoryList = () => {
     const start = (historyPage - 1) * HISTORY_PER_PAGE;
     const paginated = filtered.slice(start, start + HISTORY_PER_PAGE);
 
-    if (paginated.length === 0) { $list.html('<div style="text-align:center; opacity:0.6; padding:20px;">Không có hồ sơ nào.</div>'); return; }
+    if (paginated.length === 0) { $list.html('<div style="text-align:center; opacity:0.6; padding:20px;">Tạm thời không có bản ghi nào</div>'); return; }
 
     paginated.forEach((item, index) => {
         const previewText = item.data.resultText || '无内容';
@@ -2613,9 +2613,9 @@ const renderHistoryList = () => {
 
         let badgeHtml = '';
         if (type === 'npc_template') {
-            badgeHtml = '<span class="pw-badge template" style="background:rgba(255, 165, 0, 0.2); color:#ffbc42;">Khuôn mẫu(N)</span>';
+            badgeHtml = '<span class="pw-badge template" style="background:rgba(255, 165, 0, 0.2); color:#ffbc42;">模版(N)</span>';
         } else if (type === 'user_template' || type === 'template') {
-            badgeHtml = '<span class="pw-badge template">Khuôn mẫu(U)</span>';
+            badgeHtml = '<span class="pw-badge template">模版(U)</span>';
         } else if (type === 'npc_persona' || type === 'npc') {
             badgeHtml = '<span class="pw-badge npc" style="background:rgba(155, 89, 182, 0.2); color:#a569bd; border:1px solid rgba(155, 89, 182, 0.4);">NPC</span>';
         } else {
@@ -2696,7 +2696,7 @@ const renderWiBooks = async () => {
             <div class="pw-wi-header" style="display:flex; align-items:center;">
                 <input type="checkbox" class="pw-wi-header-checkbox pw-wi-select-all" title="全选/全不选 (仅选中当前可见条目)">
                 <span class="pw-wi-book-title">
-                    ${book} ${isBound ? '<span class="pw-bound-status">(Đã liên kết)</span>' : ''}
+                    ${book} ${isBound ? '<span class="pw-bound-status">(已绑定)</span>' : ''}
                 </span>
                 <div class="pw-wi-header-actions">
                     <div class="pw-wi-filter-toggle" title="展开/收起筛选"><i class="fa-solid fa-filter"></i></div>
@@ -2763,7 +2763,7 @@ const renderWiBooks = async () => {
                     $list.empty();
                     
                     if (entries.length === 0) {
-                        $list.html('<div style="padding:10px;opacity:0.5;">Không có mục nào</div>');
+                        $list.html('<div style="padding:10px;opacity:0.5;">无条目</div>');
                     } else {
                         const $tools = $(`
                         <div class="pw-wi-depth-tools">
@@ -2802,7 +2802,7 @@ const renderWiBooks = async () => {
                                 $tools.find('#d-filter-toggle').removeClass('active').text('Sàng lọc');
                                 return;
                             }
-                            $tools.find('#d-filter-toggle').addClass('active').text('Bỏ sàng lọc');
+                            $tools.find('#d-filter-toggle').addClass('active').text('Bỏ Sàng Lọc');
                             const keyword = $tools.find('#keyword').val().toLowerCase();
                             const pVal = $tools.find('#p-select').val();
                             const dMin = parseInt($tools.find('#d-min').val()) || 0;
@@ -2845,7 +2845,7 @@ const renderWiBooks = async () => {
                                  const originalEnabled = $(this).data('original-enabled');
                                  $(this).find('.pw-wi-check').prop('checked', originalEnabled).trigger('change');
                              });
-                             toastr.info("Đã đặt lại về trạng thái gốc của Sách thế giới");
+                             toastr.info("已重置为世界书原始状态");
                         });
 
                         $list.append($tools);
@@ -2875,7 +2875,7 @@ const renderWiBooks = async () => {
                                 </div>
                                 <div class="pw-wi-desc">
                                     ${entry.content}
-                                    <div class="pw-wi-close-bar"><i class="fa-solid fa-angle-up"></i> 收起</div>
+                                    <div class="pw-wi-close-bar"><i class="fa-solid fa-angle-up"></i> Thu gọn</div>
                                 </div>
                             </div>`);
                             
